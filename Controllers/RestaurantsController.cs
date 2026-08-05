@@ -36,5 +36,15 @@ namespace Restaurant.API.Controllers
 
 
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult>DeleteRestaurant([FromRoute]int id)
+        {
+            var delete = await restaurantsService.DeleteRestaurant(id);
+            if(!delete)
+            {
+                return NotFound($" Restaurant with Id {id} not found");
+            }
+            return NoContent();
+        }
     }
 }
