@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Restaurants.Application.Dishes.Dtos;
-using Restaurants.Application.Restaurants;
+using Restaurants.Application.Dishes.Services;
 using Restaurants.Application.Restaurants.Dtos;
+using Restaurants.Application.Restaurants.Services;
 using Restaurants.Domain.IRepositories;
 using Restaurants.Infrastructure.Persistence;
 using Restaurants.Infrastructure.Repositories;
@@ -17,6 +18,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<RestaurantsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Defaultconnection")));
 builder.Services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
 builder.Services.AddScoped<IRestaurantsService, RestaurantsService>();
+builder.Services.AddScoped<IDishesRepository, DishesRepository>();
+builder.Services.AddScoped<IDishesService, DishesService>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile<RestaurantsProfile>();

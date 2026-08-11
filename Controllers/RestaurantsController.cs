@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Restaurants.Application.Restaurants;
 using Restaurants.Application.Restaurants.Dtos;
+using Restaurants.Application.Restaurants.Services;
 using Restaurants.Infrastructure.Persistence;
 
 namespace Restaurant.API.Controllers
@@ -30,11 +30,12 @@ namespace Restaurant.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
-            
             var restaurant = await restaurantsService.Create(dto);
-            return Ok(restaurant);
 
-
+            return CreatedAtAction(
+                nameof(GetRestaurantById),
+                new { id = restaurant.Id },
+                restaurant);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult>DeleteRestaurant([FromRoute]int id)
@@ -45,6 +46,18 @@ namespace Restaurant.API.Controllers
                 return NotFound($" Restaurant with Id {id} not found");
             }
             return NoContent();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateRestaurant( int id,[FromBody]UpdateRestaurantDto dto)
+        {
+            var restaurant = await restaurantsService.Update(id, dto);
+
+            if (restaurant == null)
+            {
+                return NotFound($"Restaurant with id {id} not found");
+            }
+
+            return Ok(restaurant);
         }
     }
 }
