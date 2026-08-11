@@ -38,6 +38,32 @@ namespace Restaurant.API.Controllers
 
             return Ok(dish);
         }
+        [HttpDelete("{dishId}")]
+        public async Task<IActionResult> DeleteDish([FromRoute] int restaurantId ,[FromRoute] int dishId)
+        {
+            var deleted = await dishesService.Delete(
+                restaurantId,
+                dishId);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+        [HttpPut("{dishId}")]
+        public async Task<IActionResult> UpdateDish( [FromRoute] int restaurantId,[FromRoute] int dishId,[FromBody] UpdateDishDto dto)
+        {
+            var dish = await dishesService.Update( restaurantId,dto, dishId);
+
+            if (dish is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(dish);
+        }
     }
 
 
