@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Restaurant.API.Middlewares;
 using Restaurants.Application.Dishes.Dtos;
 using Restaurants.Application.Dishes.Services;
 using Restaurants.Application.Restaurants.Dtos;
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ErrorHandlingMiddle>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<RestaurantsDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Defaultconnection")));
@@ -27,7 +29,7 @@ builder.Services.AddAutoMapper(cfg =>
 });
 
 var app = builder.Build();
-
+app.UseMiddleware<ErrorHandlingMiddle>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
