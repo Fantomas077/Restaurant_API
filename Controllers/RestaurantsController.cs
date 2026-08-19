@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Services;
@@ -8,6 +9,7 @@ namespace Restaurant.API.Controllers
 {
     [Route("api/restaurants")]
     [ApiController]
+    [Authorize]
     public class RestaurantsController(IRestaurantsService restaurantsService) : ControllerBase
     {
         [HttpGet]
