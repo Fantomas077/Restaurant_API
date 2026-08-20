@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Restaurants.Dtos;
 using Restaurants.Application.Restaurants.Services;
+using Restaurants.Domain.Request;
 using Restaurants.Infrastructure.Persistence;
 
 namespace Restaurant.API.Controllers
 {
     [Route("api/restaurants")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles =Role.Admin)]
     public class RestaurantsController(IRestaurantsService restaurantsService) : ControllerBase
     {
         [HttpGet]
